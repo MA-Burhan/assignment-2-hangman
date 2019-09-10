@@ -6,6 +6,9 @@ public class HangMan {
     private static String secretWord = "LEXICON";
     private int numberOfGuessesMadeCounter;
     private char[] hangManString = new char[secretWord.length()];
+
+
+
     private StringBuilder allGuesses = new StringBuilder();
 
     public HangMan() {
@@ -27,7 +30,7 @@ public class HangMan {
         Scanner scanner = new Scanner(System.in);
         System.out.println("----------- Welcome to Hangman ----------- \n");
 
-        while (isGuessesLeft()) {
+        while (isGuessesLeft(numberOfGuessesMadeCounter)) {
 
             System.out.print(hangManString);
             System.out.println("    (contains " + secretWord.length() + " characters)\n");
@@ -61,11 +64,11 @@ public class HangMan {
                 }
             } else if (guessAsString.length() == secretWord.length()) {
                 if (guessAsString.contains(secretWord)) {
-                    System.out.println("Correct word! Congratulations! You won!");
+                    System.out.println("Correct word! Congratulations! You won!\n");
                     System.out.println(secretWord);
                     break;
                 } else {
-                    System.out.println("Wrong word! You lost!");
+                    System.out.println("\nWrong word! You lost!");
                     break;
                 }
             } else {
@@ -76,16 +79,16 @@ public class HangMan {
 
         }
 
-        if (!isGuessesLeft()) {
+        if (!isGuessesLeft(numberOfGuessesMadeCounter)) {
         System.out.println("No guesses left. You lost!");
         }
-
 
 
     }
 
 
-    private boolean isNewGuess(char guess) {
+
+    public boolean isNewGuess(char guess) {
        String guessAsString = Character.toString(guess);
        if (allGuesses.indexOf(guessAsString) == -1) {
            return true;
@@ -98,28 +101,29 @@ public class HangMan {
         numberOfGuessesMadeCounter++;
     }
 
-    private boolean isGuessesLeft() {
-        if (numberOfGuessesMadeCounter < 8) {
+    public boolean isGuessesLeft(int numberOfGuessesMade) {
+        if (numberOfGuessesMade < 8) {
             return true;
         } else {
             return false;
         }
 
     }
-    private boolean isCorrectGuess(char guess) {
+    public boolean isCorrectGuess(char guess) {
         String guessAsString = Character.toString(guess);
-        if ( secretWord.toUpperCase().contains(guessAsString.toUpperCase())) {
+        if ( secretWord.contains(guessAsString)) {
             return true;
         } else {
             return false;
         }
     }
 
-    private void addGuessToAllGuesses(char guess) {
+    //Public just for testing purpose.
+    public void addGuessToAllGuesses(char guess) {
         allGuesses.append(guess);
     }
 
-    private int getIndexOfCorrectGuess(char guess) {
+    public int getIndexOfCorrectGuess(char guess) {
         return secretWord.indexOf(guess);
     }
 
@@ -137,17 +141,17 @@ public class HangMan {
         return charArray;
     }
 
-    /*
-    private int getNumberOfGuessesMadeCounter() {
+  //Getters
+
+    public int getNumberOfGuessesMadeCounter() {
         return numberOfGuessesMadeCounter;
     }
 
-    private char[] getGameProgressWithCorrectGuesses() {
+    public char[] getHangManString() {
         return hangManString;
     }
 
-    private StringBuilder getAllGuessesSoFar() {
+    public StringBuilder getAllGuesses() {
         return allGuesses;
     }
-   */
 }
