@@ -35,33 +35,52 @@ public class HangMan {
             System.out.println("Guesses made so far: " + allGuesses + "\n");
 
             System.out.print("Make your guess: ");
-            char guess = scanner.nextLine().toUpperCase().charAt(0);
+            String guessAsString = scanner.nextLine().toUpperCase();
             System.out.println ("\n*********************************");
 
-            if (isNewGuess(guess)) {
-                if (isCorrectGuess(guess)) {
-                    System.out.println("\nCorrect guess!\n");
-                    addCorrectGuessToHangManString(guess);
-                    addGuessToAllGuesses(guess);
+            if (guessAsString.length() == 1) {
+                char guess = guessAsString.charAt(0);
+                if (isNewGuess(guess)) {
+                    if (isCorrectGuess(guess)) {
+                        System.out.println("\nCorrect guess!\n");
+                        addCorrectGuessToHangManString(guess);
+                        addGuessToAllGuesses(guess);
 
-                    if (secretWord.equals(new String(hangManString))) {
-                        System.out.println(hangManString);
-                        System.out.println("\nCongratulations! You won!");
-                        break;
+                        if (secretWord.equals(new String(hangManString))) {
+                            System.out.println(hangManString);
+                            System.out.println("\nCongratulations! You won!");
+                            break;
+                        }
+                    } else {
+                        System.out.println("\nWrong guess. Try again!\n");
+                        addGuessToAllGuesses(guess);
+                        incrementNumberOfGuessesMadeCounter();
                     }
                 } else {
-                    System.out.println("\nWrong guess. Try again!\n");
-                    addGuessToAllGuesses(guess);
-                    incrementNumberOfGuessesMadeCounter();
+                    System.out.println("\nThis guess has already been made. Try again\n");
+                }
+            } else if (guessAsString.length() == secretWord.length()) {
+                if (guessAsString.contains(secretWord)) {
+                    System.out.println("Correct word! Congratulations! You won!");
+                    System.out.println(secretWord);
+                    break;
+                } else {
+                    System.out.println("Wrong word! You lost!");
+                    break;
                 }
             } else {
-                System.out.println("\nThis guess has already been made. Try again\n");
+                System.out.println("\nWrong number of characters. Guess one (1) character or the whole word ("
+                        + secretWord.length() + " characters)\n");
             }
+
+
         }
 
         if (!isGuessesLeft()) {
         System.out.println("No guesses left. You lost!");
         }
+
+
 
     }
 
